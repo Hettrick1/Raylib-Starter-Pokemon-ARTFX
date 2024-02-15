@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "Paddle.h"
 
 class Ball
 {
@@ -10,9 +11,9 @@ private:
 public:
 	Ball();
 	~Ball();
-	void Update(float deltaTime, const int WIDTH, const int HEIGHT);
+	void Update(float deltaTime, const int WIDTH, const int HEIGHT, Paddle paddle1, Paddle paddle2);
 	void Move(float deltaTime);
-	void CheckCollision(const int WIDTH, const int HEIGHT);
+	void CheckCollision(const int WIDTH, const int HEIGHT, Paddle paddle1, Paddle paddle2);
 	void DrawBall();
 };
 
