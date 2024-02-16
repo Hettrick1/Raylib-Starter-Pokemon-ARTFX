@@ -1,5 +1,6 @@
 #include "Ball.h"
 #include "Paddle.h"
+#include <iostream>
 
 Ball::Ball()
 {
@@ -9,10 +10,10 @@ Ball::~Ball()
 {
 }
 
-void Ball::Update(float deltaTime, const int WIDTH, const int HEIGHT, Paddle paddle1, Paddle paddle2)
+void Ball::Update(float deltaTime, const int WIDTH, const int HEIGHT, Paddle paddleL, Paddle paddleR)
 {
     Move(deltaTime);
-    CheckCollision(WIDTH, HEIGHT, paddle1, paddle2);
+    CheckCollision(WIDTH, HEIGHT, paddleL, paddleR);
 }
 
 void Ball::Move(float deltaTime)
@@ -22,23 +23,41 @@ void Ball::Move(float deltaTime)
 
 }
 
-void Ball::CheckCollision(const int WIDTH, const int HEIGHT, Paddle paddle1, Paddle paddle2)
+void Ball::CheckCollision(const int WIDTH, const int HEIGHT, Paddle paddleL, Paddle paddleR)
 {
     if (ballPos.x - BALLRADIUS < 0 || ballPos.x + BALLRADIUS > WIDTH) {
-        speed.x = -speed.x;
+        BounceX();
     }
     else if (ballPos.y - BALLRADIUS < 0 || ballPos.y + BALLRADIUS > HEIGHT) {
-        speed.y = -speed.y;
+        BounceY();
     }
-    if (ballPos.x - BALLRADIUS < paddle1.GetPaddlePos().x + 20 || ballPos.x - BALLRADIUS > paddle2.GetPaddlePos().x) {
-        speed.x = -speed.x;
+    if (ballPos.x - BALLRADIUS/2 <= paddleL.GetPaddlePos().x + 10 && ballPos.y - BALLRADIUS/2 > paddleL.GetPaddlePos().y && ballPos.y + BALLRADIUS/2 < paddleL.GetPaddlePos().y + 80)
+    {
+        BounceX();
     }
-    else if ((ballPos.y - BALLRADIUS > paddle1.GetPaddlePos().y || ballPos.y - BALLRADIUS > paddle2.GetPaddlePos().y + 80) && (ballPos.y - BALLRADIUS < paddle1.GetPaddlePos().y|| ballPos.y - BALLRADIUS < paddle2.GetPaddlePos().y + 80)) {
-        speed.y = -speed.y;
+    if (ballPos.x + BALLRADIUS/2 >= paddleR.GetPaddlePos().x && ballPos.y - BALLRADIUS/2 > paddleR.GetPaddlePos().y && ballPos.y + BALLRADIUS/2 < paddleR.GetPaddlePos().y + 80)
+    {
+        BounceX();
     }
+        
 }
 
 void Ball::DrawBall()
 {
     DrawCircle(ballPos.x, ballPos.y, BALLRADIUS, RED);
+}
+
+void Ball::BounceX()
+{
+    speed.x *= -1;
+}
+
+void Ball::BounceY()
+{
+    speed.y *= -1;
+}
+
+Vector2 Ball::GetPosition()
+{
+    return ballPos;
 }

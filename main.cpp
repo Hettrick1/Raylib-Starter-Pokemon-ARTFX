@@ -19,8 +19,8 @@ void center_window(float window_width, float window_height);
 void DrawDottedLine();
 
 Ball ball = Ball();
-Paddle paddle1 = Paddle(Vector2{ 30, HEIGHT / 2 }, true);
-Paddle paddle2 = Paddle(Vector2{ WIDTH-50, HEIGHT / 2 }, false);
+Paddle paddleL = Paddle(Vector2{ 30, HEIGHT / 2 }, true);
+Paddle paddleR = Paddle(Vector2{ WIDTH-40, HEIGHT / 2 }, false);
 
 int main() { 
     Load();
@@ -47,9 +47,9 @@ void Start()
 void Update()
 {
     deltaTime = GetFrameTime();
-    ball.Update(deltaTime, WIDTH, HEIGHT, paddle1, paddle2);
-    paddle1.Move(deltaTime, HEIGHT);
-    paddle2.Move(deltaTime, HEIGHT);
+    paddleL.Update(deltaTime, HEIGHT);
+    paddleR.Update(deltaTime, HEIGHT);
+    ball.Update(deltaTime, WIDTH, HEIGHT, paddleL, paddleR);
 }
 
 void Draw()
@@ -64,8 +64,8 @@ void Draw()
     DrawText(TextFormat("%02i", score[1]), WIDTH - 100 - MeasureText(TextFormat("%02i", score[1]), 80), 55, 80, GRAY);
 
     ball.DrawBall();
-    paddle1.DrawPaddle();
-    paddle2.DrawPaddle();
+    paddleL.DrawPaddle();
+    paddleR.DrawPaddle();
     EndDrawing();
 }
 

@@ -1,9 +1,9 @@
 #include "Paddle.h"
 
-Paddle::Paddle(Vector2 paddlePos, bool isPlayer1)
+Paddle::Paddle(Vector2 paddlePos, bool isPaddleL)
 {
 	mPaddlePos = paddlePos;
-	mIsPlayer1 = isPlayer1;
+	mIsPaddleL = isPaddleL;
 }
 
 Paddle::~Paddle()
@@ -12,7 +12,7 @@ Paddle::~Paddle()
 
 void Paddle::Move(float deltaTime, const int HEIGHT)
 {
-	if (!mIsPlayer1) {
+	if (!mIsPaddleL) {
 		if (IsKeyDown(KEY_UP) && mPaddlePos.y > 0) {
 			mPaddlePos.y -= mPaddleSpeed.y * deltaTime;
 		}
@@ -30,7 +30,13 @@ void Paddle::Move(float deltaTime, const int HEIGHT)
 	}
 }
 
+void Paddle::Update(float deltaTime, const int HEIGHT)
+{
+	Move(deltaTime, HEIGHT);
+}
+
 void Paddle::DrawPaddle()
 {
-	DrawRectangle(mPaddlePos.x, mPaddlePos.y, 20, 80, BLACK);
+	DrawRectangle(mPaddlePos.x, mPaddlePos.y, 10, 80, BLACK);
 }
+
